@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Stack Open 0.4</title>
+</head>
+<body>
+
+    <pre class="mermaid">
+        sequenceDiagram
+            participant browser
+            participant server
+
+            browser ->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+            activate server
+            Note right of server: Data from new_note is pushed to notes array
+            server-->>browser: 302 redirect, location: /exampleapp/notes
+            deactivate server
+
+            browser ->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+            activate server
+            server-->>browser: notes.html
+            deactivate server
+
+            browser ->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+            activate server
+            server-->>browser: main.css
+            deactivate server
+
+            browser ->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+            activate server
+            server-->>browser: main.js
+            deactivate server
+
+            Note left of browser: Browser starts executing JavaScript code that fetches the JSON data from the server
+
+            browser ->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+            activate server
+            server-->>browser: 200 OK, [{"content": "example content", "data": "2023-1-14"}, ... ] 
+            deactivate server
+
+            Note left of browser: Browser executes callback function that renders the notes
+    </pre>
+    
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>
