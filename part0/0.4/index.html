@@ -38,7 +38,7 @@
 
             browser ->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
             activate server
-            server-->>browser: 200 OK, [{"content": "example content", "data": "2023-1-14"}, ... ] 
+            server-->>browser: [{"content": "example content", "data": "2023-1-14"}, ... ] 
             deactivate server
 
             Note left of browser: Browser executes callback function that renders the notes
