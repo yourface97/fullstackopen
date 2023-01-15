@@ -9,29 +9,29 @@ const Button = ({name, onClick}) => {
   )
 }
 
-const Feedback = ({incGood, incNeutral, incBad}) => {
+const Feedback = ({goodClick, neutralClick, badClick}) => {
   const name = ['good', 'neutral', 'bad']
   return(
     <>
       <h1>give feedback</h1>
       <div>
-        <Button name={name[0]} onClick={incGood}/>
-        <Button name={name[1]} onClick={incNeutral}/>
-        <Button name={name[2]} onClick={incBad}/>
+        <Button name={name[0]} onClick={goodClick}/>
+        <Button name={name[1]} onClick={neutralClick}/>
+        <Button name={name[2]} onClick={badClick}/>
       </div>
     </>
   )
 }
 
-const Statistics = ({good, neutral, bad, all, average, positive}) =>{
+const Statistics = ({clicks, average, positive}) =>{
   return(
     <>
       <h1>statistics</h1>
       <p>
-        good {good} <br />
-        neutral {neutral} <br />
-        bad {bad} <br />
-        all {all} <br />
+        good {clicks.good} <br />
+        neutral {clicks.neutral} <br />
+        bad {clicks.bad} <br />
+        all {clicks.all} <br />
         average {average} <br />
         positive {positive}
       </p>
@@ -40,38 +40,37 @@ const Statistics = ({good, neutral, bad, all, average, positive}) =>{
 }
 
 const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-  const [all, setAll] = useState(0);
+  const [clicks, setClicks] = useState({
+    good: 0, neutral: 0, bad: 0, all: 0
+  });
   const [average, setAverage] = useState(0);
   const [positive, setPositive] = useState(0);
   
-  const incGood = () => {
-    setGood(good+1);
-    setAll(all+1);
-    setAverage((good-bad+1)/(all+1));
-    setPositive((good+1)/(all+1));
+  const handleGoodClick = () => {
+    const newClicks = {...clicks, good: clicks.good + 1, all: clicks.all + 1};
+    setAverage((newClicks.good-newClicks.bad)/(newClicks.all));
+    setPositive((newClicks.good)/(newClicks.all));
+    setClicks(newClicks);
   }
 
-  const incNeutral = () => {
-    setNeutral(neutral+1);
-    setAll(all+1);
-    setAverage((good-bad)/(all+1));
-    setPositive((good)/(all+1));
+  const handleBadClick = () => {
+    const newClicks = {...clicks, bad: clicks.bad + 1, all: clicks.all + 1};
+    setAverage((newClicks.good-newClicks.bad)/(newClicks.all));
+    setPositive((newClicks.good)/(newClicks.all));
+    setClicks(newClicks);
   }
 
-  const incBad = () => {
-    setBad(bad+1);
-    setAll(all+1);
-    setAverage((good-bad-1)/(all+1));
-    setPositive((good)/(all+1));
+  const handleNeutralClick = () => {
+    const newClicks = {...clicks, neutral: clicks.neutral + 1, all: clicks.all + 1};
+    setAverage((newClicks.good-newClicks.bad)/(newClicks.all));
+    setPositive((newClicks.good)/(newClicks.all));
+    setClicks(newClicks);
   }
 
   return (
     <div>
-      <Feedback incGood={incGood} incNeutral={incNeutral} incBad={incBad}/>
-      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive}/> 
+      <Feedback goodClick={handleGoodClick} neutralClick={handleNeutralClick} badClick={handleBadClick}/>
+      <Statistics clicks={clicks} average={average} positive={positive}/> 
     </div>
   );
 }
