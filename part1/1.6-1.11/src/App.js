@@ -23,6 +23,14 @@ const Feedback = ({goodClick, neutralClick, badClick}) => {
   )
 }
 
+const StatisticLine = ({text, value}) => {
+  return(
+    <>
+      {text} {value}
+    </>
+  )
+}
+
 const Statistics = ({clicks, average, positive}) =>{
   if(clicks.all === 0){
     return(
@@ -36,12 +44,12 @@ const Statistics = ({clicks, average, positive}) =>{
     <>
       <h1>statistics</h1>
       <p>
-        good {clicks.good} <br />
-        neutral {clicks.neutral} <br />
-        bad {clicks.bad} <br />
-        all {clicks.all} <br />
-        average {average} <br />
-        positive {positive}
+        <StatisticLine text='good' value={clicks.good}/><br />
+        <StatisticLine text='neutral' value={clicks.neutral}/><br />
+        <StatisticLine text='bad' value={clicks.bad}/><br />
+        <StatisticLine text='all' value={clicks.all}/><br />
+        <StatisticLine text='average' value={average}/><br />
+        <StatisticLine text='positive' value={positive}/><br />
       </p>
     </>
   )
