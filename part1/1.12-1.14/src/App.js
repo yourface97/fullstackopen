@@ -11,30 +11,37 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is the same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
 
-const [selected, setSelected] = useState(0);
-const [votes, setVotes] = useState([
-  0,0,0,0,0,0,0
-]);
+  const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState([
+    0,0,0,0,0,0,0
+  ]);
+  const mostVotes = votes.findIndex((element) => {
+    return element === Math.max(...votes);
+  });
 
-const nextAnecdote = () => {
-  setSelected(Math.floor(Math.random()*anecdotes.length));
-}
+  const nextAnecdote = () => {
+    setSelected(Math.floor(Math.random()*anecdotes.length));
+  }
 
-const voteCount = () => {
-  const newCount = [...votes];
-  newCount[selected] += 1;
-  console.log(newCount);
-  setVotes(newCount);
-}
+  const voteCount = () => {
+    const newCount = [...votes];
+    newCount[selected] += 1;
+    setVotes(newCount);
+  }
+  
 
   return (
     <div>
-      {anecdotes[selected]}<br />
-      votes: {votes[selected]}
-      <div>
-        <button onClick={nextAnecdote}>next anecdote</button>
-        <button onClick={voteCount}>Vote</button>
+      <h1>Anecdote of the day</h1>
+      <div>{anecdotes[selected]}<br />
+      has {votes[selected]} votes
+        <div>
+          <button onClick={nextAnecdote}>next anecdote</button>
+          <button onClick={voteCount}>Vote</button>
+        </div>
       </div>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[mostVotes]}</p>
     </div>
   );
 }
