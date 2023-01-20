@@ -1,7 +1,7 @@
 const Person = ({person}) => {
     return(
       <>
-      {person.name}: {person.phone}<br/>
+      {person.name}: {person.number}<br/>
       </>
     )
 }
