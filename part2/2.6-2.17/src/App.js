@@ -2,14 +2,18 @@ import { useState } from 'react';
 import Header from './components/Header';
 import Form from './components/Form';
 import Persons from './components/Persons';
+import Input from './components/Input';
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: "Arto Hellas",
-      phone: "330-432-1795" }
-  ])
-  const [newName, setNewName] = useState('')
-  const [newPhone, setNewPhone] = useState('')  
+    { name: "Arto Hellas", phone: '040-123456' },
+    { name: 'Ada Lovelace', phone: '39-44-5323523' },
+    { name: 'Dan Abramov', phone: '12-43-234345' },
+    { name: 'Mary Poppendieck', phone: '39-23-6423122' }
+  ]);
+  const [newName, setNewName] = useState('');
+  const [newPhone, setNewPhone] = useState('');
+  const [newFilter, setNewFilter] = useState('');
 
   const addPerson = (e) => {
     e.preventDefault();
@@ -25,6 +29,10 @@ const App = () => {
     
     setNewName('');
     setNewPhone('');
+  }
+
+  const filterInput = (e) => {
+    setNewFilter(e.target.value);
   }
 
   const phoneInput = (e) => {
@@ -44,7 +52,7 @@ const App = () => {
     },
     {
       id: 2,
-      name: 'Phone: ',
+      name: 'Number: ',
       value: newPhone,
       func: phoneInput
     }
@@ -53,11 +61,15 @@ const App = () => {
   return (
     <div> 
       <Header title="Phonebook" />
+      <Input name="Filter: " value={newFilter} onChange={filterInput}/>
+      <Header title="Add a new" />
       <Form inputs={inputs} onClick={addPerson} />
       <Header title="Numbers" />
-      <Persons persons={persons} />
+      <Persons persons={persons} filter={newFilter}/>
     </div>
   );
 }
+
+
 
 export default App;

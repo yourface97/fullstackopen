@@ -1,13 +1,4 @@
-const Input = ({name, onChange, value}) => {
-    return(
-        <>
-        <div>
-            {name} <input type="text" onChange={onChange} value={value} />
-        </div>
-        </>
-    )
-}
-
+import Input from "./Input";
 
 const Form = ({inputs, onClick}) => {
     return(
