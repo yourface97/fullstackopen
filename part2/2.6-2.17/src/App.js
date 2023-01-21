@@ -4,7 +4,6 @@ import Header from './components/Header';
 import Form from './components/Form';
 import Persons from './components/Persons';
 import Input from './components/Input';
-import axios from 'axios';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -64,6 +63,7 @@ const App = () => {
     }
   ]
   
+  
   return (
     <div> 
       <Header title="Phonebook" />
@@ -71,7 +71,7 @@ const App = () => {
       <Header title="Add a new" />
       <Form inputs={inputs} onClick={addPerson} />
       <Header title="Numbers" />
-      <Persons persons={persons} filter={newFilter}/>
+      <Persons persons={persons} filter={newFilter} setPersons={setPersons}/>
     </div>
   );
 }
