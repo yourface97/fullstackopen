@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Form from './components/Form';
 import Persons from './components/Persons';
 import Input from './components/Input';
+import axios from 'axios';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -25,15 +26,34 @@ const App = () => {
       number: newPhone,
     }
 
-    persons.map(person => person.name).includes(newName) ? 
-      alert(`${newPersonObject.name} is already added to the phonebook`) : 
+    if(persons.map(person => person.name).includes(newName)){
+      const personExists = persons.find(person => person.name === newName);
+      if(personExists.number === newPhone){
+        alert(`${newName} is already in the phonebook with number ${newPhone}`);
+        setNewPhone('');
+      }
+      else{
+        if(window.confirm(`Change ${newName}'s number to: ${newPhone}?`)){
+          const updatedPersonExists = {...personExists, number: newPhone}
+          peopleService
+            .update(personExists.id, updatedPersonExists)
+            .then(returnedPerson => {
+              setPersons(persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson))
+              setNewName('')
+              setNewPhone('')
+            })
+        }
+      }
+    }
+    else{
       peopleService
         .create(newPersonObject)
-        .then((returnedPerson) => {
+        .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson));
           setNewName('');
           setNewPhone('');
         })
+    }
   }
 
   const filterInput = (e) => {
