@@ -16,7 +16,6 @@ const App = () => {
       .get('http://localhost:3001/persons')
       .then((res) => {
         setPersons(res.data);
-        console.log(res.data);
       })
   },[])
 
@@ -26,15 +25,17 @@ const App = () => {
     const newPersonObject = {
       name: newName,
       number: newPhone,
-      id: persons.length+1
     }
 
     persons.map(person => person.name).includes(newName) ? 
       alert(`${newPersonObject.name} is already added to the phonebook`) : 
-      setPersons(persons.concat(newPersonObject));
-    
-    setNewName('');
-    setNewPhone('');
+      axios
+        .post('http://localhost:3001/persons',newPersonObject)
+        .then(res => {
+          setPersons(persons.concat(res.data))
+          setNewName('');
+          setNewPhone('');
+        })
   }
 
   const filterInput = (e) => {
